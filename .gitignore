@@ -1,0 +1,16 @@
+node_modules
+*.swp
+**/.DS_Store
+public/dist/
+test/dist/
+.sass-cache/
+public/stylesheets/style.css.map
+dump.rdb
+npm-debug*
+db/config/config.json
+coverage/
+.nyc_output/
+public/stylesheets/style.css
+.env
+public/files
+utils/keys.js

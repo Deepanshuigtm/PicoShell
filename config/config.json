@@ -1,0 +1,27 @@
+{
+  "development": {
+    "username": "root",
+    "password": "root",
+    "database": "picodb",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "database": "picodb",
+    "host": "127.0.0.1",
+    "port": "3306",
+    "dialect": "mysql"
+  },
+  "staging": {
+    "username": "root",
+    "password": "root",
+    "database": "picodb",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": "root",
+    "database": "picodb",
+    "dialect": "mysql"
+  }
+}

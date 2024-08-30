@@ -1,0 +1,206 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+'use strict';
+const app = require('../app');
+const debug = require('debug')('magiterm:server');
+const http = require('http');
+const User = require('../models/User');
+const Messages = require('../models/Messages');
+const docker = require('../utils/dockerAPI');
+const axios = require('axios');
+
+const crypto = require('crypto'),
+    algorithm = 'aes-256-ctr',
+    password = 'mdirjwnstkdo491mndgiiu23na1';
+
+function encrypt(text){
+  var cipher = crypto.createCipher(algorithm,password)
+  var crypted = cipher.update(text,'utf8','hex')
+  crypted += cipher.final('hex');
+  return crypted;
+}
+ 
+function decrypt(text){
+  var decipher = crypto.createDecipher(algorithm,password)
+  var dec = decipher.update(text,'hex','utf8')
+  dec += decipher.final('utf8');
+  return dec;
+}    
+/**
+ * Get port from environment and store in Express.
+ */
+
+const port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+
+const server = http.createServer(app);
+const io = require('socket.io').listen(server);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+io.on('connection', function(socket) {
+  console.log('New Socket Connection!');
+
+  socket.on('/TE/', function(code) {
+    //rebroadcast the message to all connected sockets.
+    io.sockets.emit('/TE/' + code.containerName, code);
+  });
+
+  socket.on('/TERM/', function(code) {
+    io.sockets.emit('/TERM/' + code.containerName, code);
+  });
+
+  socket.on('/TERM/RES/', function(code) {
+    io.sockets.emit('/TERM/RES/' + code.containerName, code);
+  });
+
+  socket.on('/COM/', function(data) {
+    io.sockets.emit('/COM/' + data.containerName, data);
+  });
+
+  socket.on('/userEncrypt', function(userObj) {
+    //encrypt username
+    const encrypted = encrypt(userObj.username);
+    console.log('ENCRYPTED', encrypted);
+    io.sockets.emit('/' + userObj.username + '/encrypted', encrypted);
+  });
+
+  socket.on('/userDecrypt', function(userObj) {
+    const username = decrypt(userObj.encrypted);
+    User.findOne({
+      where: {
+        username: username
+      }
+    })
+    .then(function(response) {
+      if(response) {
+        io.sockets.emit('/auth/' + userObj.encrypted, true);
+      } else {
+        io.sockets.emit('/auth/' + userObj.encrypted, false);
+      }
+    });
+  });
+
+  socket.on('/TERM/CD/', function(code) {
+    io.sockets.emit('/TERM/CD/' + code.containerName, code);
+  });
+
+  socket.on('/DASH/INVITE/', function(invite) {
+    io.sockets.emit('/DASH/INVITE/' + invite.recipient, invite);
+  });
+
+  socket.on('/DASH/INVITE/ACCEPT/', function(invite) {
+    io.sockets.emit('/DASH/INVITE/ACCEPT/' + invite.recipient, invite);
+  });
+
+  socket.on('/DASH/REMOVE/COLLABORATOR/', function(rejection) {
+    io.sockets.emit('/DASH/REMOVE/COLLABORATOR/' + rejection.recipient, rejection);
+  });
+
+  socket.on('/DASH/REMOVE/COLLABWITH/', function(rejection) {
+    io.sockets.emit('/DASH/REMOVE/COLLABWITH/' + rejection.recipient, rejection);
+  });
+
+  socket.on('/CHAT/', function(msg) {
+    io.sockets.emit('/CHAT/' + msg.containerName, msg);
+    console.log('Emitted msg', msg);
+  });
+
+  socket.on('/TERM/SHOW/', function(show) {
+    io.sockets.emit('/TERM/SHOW/' + show.containerName, show);
+  });
+
+  socket.on('/TE/JOIN/', function(code) {
+    io.sockets.emit('/TE/JOIN/' + code.containerName, code);
+  })
+
+  socket.on('/DASH/UPDATE/COLLABROLE/', function(roleUpdate) {
+    io.sockets.emit('/DASH/UPDATE/COLLABROLE/' + roleUpdate.recipient, roleUpdate);
+  });
+
+  socket.on('/FB/REFRESH/', function(ref) {
+    io.sockets.emit('/FB/REFRESH/' + ref.containerName, ref);
+  });
+
+  socket.on('/TERM/PAUSE/', function(pause) {
+    io.sockets.emit('/TERM/PAUSE/' + pause.containerName, pause);
+  });
+
+  socket.on('/TERM/RESUME/', function(resume) {
+    io.sockets.emit('/TERM/RESUME/' + resume.containerName, resume);
+  });
+
+});
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  const port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  const bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  const addr = server.address();
+  const bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  console.log('Listening on ' + bind);
+}

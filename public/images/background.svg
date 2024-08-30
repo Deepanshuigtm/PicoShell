@@ -1,0 +1,25 @@
+
+<svg width="1400px" height="830px" viewBox="340 357 1400 830" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 40.3 (33839) - http://www.bohemiancoding.com/sketch -->
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="1400px" height="585.234432"></rect>
+    </defs>
+    <g id="Group-3" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(340.000000, 357.000000)">
+        <mask id="mask-2" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <use id="Mask" fill="#271F42" xlink:href="#path-1"></use>
+        <polygon id="Rectangle-2" fill-opacity="0.0651890851" fill="#DCDAED" mask="url(#mask-2)" points="683.333669 353 856.146702 531.820079 652.813032 728.031126 480 549.211047"></polygon>
+        <polygon id="Rectangle-2" fill-opacity="0.0651890851" fill="#DCDAED" mask="url(#mask-2)" points="-9.66633061 380 163.146702 558.820079 -40.1869678 755.031126 -213 576.211047"></polygon>
+        <polygon id="Rectangle-2" fill-opacity="0.0651890851" fill="#A52BD0" mask="url(#mask-2)" points="816.152671 336 668 525.48578 869.912449 683.119784 1018.06512 493.634003"></polygon>
+        <polygon id="Rectangle-2" fill-opacity="0.0651890851" fill="#A52BD0" mask="url(#mask-2)" points="975.152671 380 827 569.48578 1028.91245 727.119784 1177.06512 537.634003"></polygon>
+        <polygon id="Rectangle-2" fill-opacity="0.23511096" fill="#DCDAED" mask="url(#mask-2)" points="825.912449 815.119784 974.06512 625.634003 772.152671 468 624 657.48578"></polygon>
+        <polygon id="Rectangle-2" fill-opacity="0.23511096" fill="#DCDAED" mask="url(#mask-2)" points="1442.91245 735.119784 1591.06512 545.634003 1389.15267 388 1241 577.48578"></polygon>
+        <polygon id="Rectangle-2" fill-opacity="0.23511096" fill="#DCDAED" mask="url(#mask-2)" points="958.912449 795.119784 1107.06512 605.634003 905.152671 448 757 637.48578"></polygon>
+        <polygon id="Rectangle-2" fill-opacity="0.23511096" fill="#DCDAED" mask="url(#mask-2)" points="312.912449 510 461.06512 699.48578 259.152671 857.119784 111 667.634003"></polygon>
+        <polygon id="Rectangle-4" fill-opacity="0.332455842" fill="#5D1B3B" mask="url(#mask-2)" points="321.027667 249 540.502362 540.036205 219.474695 781.768038 0 490.731833"></polygon>
+        <polygon id="Rectangle-4" fill-opacity="0.332455842" fill="#5D1B3B" mask="url(#mask-2)" points="1212.02767 295 1431.50236 586.036205 1110.47469 827.768038 891 536.731833"></polygon>
+        <polygon id="Rectangle-4" fill-opacity="0.332455842" fill="#5D1B3B" mask="url(#mask-2)" points="472.524329 295 248 582.164365 564.756832 829.457921 789.281161 542.293556"></polygon>
+    </g>
+</svg>

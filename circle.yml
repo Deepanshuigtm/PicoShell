@@ -1,0 +1,33 @@
+machine:
+  hosts:
+    circlehosts: 127.0.0.1
+    
+  environment:
+    APP_ENV: test
+    APP_URL: 127.0.0.1
+    DB_HOST: 127.0.0.1
+    DB_URL: mysql://root@127.0.0.1:3306/picodb
+    DB_NAME: picodb
+    DB_USER: root
+    MAILGUN_SECRET: process.env.MAILGUN_SECRET
+    API_KEY: process.env.API_KEY
+
+database:
+  override:
+    - mysql -u root -e 'CREATE DATABASE picodb'
+
+test:
+  pre:
+    - npm start:
+        background: true
+  override:
+    - sequelize db:migrate:undo:all
+    - sequelize db:migrate
+
+# deployment:
+#   staging:
+#     branch: master
+#     commands:
+#       - GIT_PUSH_TO_STAGING
+      # - git push -f ssh://root@162.243.142.111/root/repo/site.git master
+      
